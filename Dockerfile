@@ -73,5 +73,5 @@ ENV PATH "$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
 # install Python packages
 RUN pip install cs50 check50 style50 submit50
 
-COPY ./etc/profile.d/common.sh /etc/profile.d/
+COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 

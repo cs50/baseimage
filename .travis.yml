@@ -1,7 +1,7 @@
 sudo: required
 services: docker
-script: docker build . -t cs50/common
+script: docker build . -t cs50/baseimage
 before_deploy: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
   provider: script
-  script: docker push cs50/common
+  script: docker push cs50/baseimage
