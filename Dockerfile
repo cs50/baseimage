@@ -68,7 +68,7 @@ RUN apt-get install -y \
     /opt/pyenv/bin/pyenv install 3.6.0 && \
     /opt/pyenv/bin/pyenv rehash && \
     /opt/pyenv/bin/pyenv global 3.6.0
-ENV PATH "$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
+ENV PATH /usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
 
 # Install Python packages
 RUN pip install cs50 check50 style50 submit50
