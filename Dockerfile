@@ -71,7 +71,7 @@ RUN apt-get install -y \
 ENV PATH /usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
 
 # Install Python packages
-RUN pip install cs50 check50 style50 submit50
+RUN pip install cs50 check50 style50==2.2.0 submit50
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
