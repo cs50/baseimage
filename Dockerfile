@@ -76,7 +76,7 @@ RUN pip install \
         check50 \
         Flask \
         Flask-Session \
-        style50==2.2.0 \
+        style50 \
         submit50
 
 # Configure shell
