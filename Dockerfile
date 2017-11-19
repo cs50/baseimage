@@ -30,15 +30,15 @@ RUN apt-get update && \
         --slave /usr/bin/clang-rename clang-rename /usr/bin/clang-rename-3.8
 
 # Install libcs50, astyle
-RUN sudo add-apt-repository ppa:cs50/ppa && \
-    sudo apt-get update && \
-    sudo apt-get install -y astyle libcs50
+RUN add-apt-repository ppa:cs50/ppa && \
+    apt-get update && \
+    apt-get install -y astyle libcs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
 RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc/apt/sources.list.d/github_git-lfs.list && \
     echo "deb-src https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" >> /etc/apt/sources.list.d/github_git-lfs.list && \
-    curl -L https://packagecloud.io/github/git-lfs/gpgkey | sudo apt-key add - && \
+    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
     apt-get update && \
     apt-get install -y git-lfs && \
     git lfs install
