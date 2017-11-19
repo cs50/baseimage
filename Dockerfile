@@ -76,8 +76,18 @@ RUN pip install \
         check50 \
         Flask \
         Flask-Session \
-        style50 \
-        submit50
+        style50
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
+
+# Add user
+RUN useradd --create-home --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
+    mkdir /home/ubuntu/workspace && \
+    chown -R ubuntu:ubuntu /home/ubuntu
+WORKDIR /home/ubuntu/workspace
+
+#
+#ENTRYPOINT ["su", "-", "ubuntu", "-c", "/bin/bash", "-c"]
+USER ubuntu
+ENTRYPOINT ["/bin/sh", "-c"]
