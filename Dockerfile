@@ -47,7 +47,8 @@ RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc
 # https://github.com/yyuu/pyenv/blob/master/README.md#installation
 # https://github.com/yyuu/pyenv/wiki/Common-build-problems
 ENV PYENV_ROOT /opt/pyenv
-RUN apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
         build-essential \
         curl \
         libbz2-dev \
@@ -87,7 +88,6 @@ RUN useradd --create-home --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 WORKDIR /home/ubuntu/workspace
 
-#
-#ENTRYPOINT ["su", "-", "ubuntu", "-c", "/bin/bash", "-c"]
-USER ubuntu
-ENTRYPOINT ["/bin/sh", "-c"]
+# Run as user
+ENTRYPOINT ["sudo", "-H", "-u", "ubuntu"]
+CMD ["bash", "-l"]
