@@ -86,8 +86,8 @@ COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 RUN useradd --create-home --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     mkdir /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
+USER ubuntu
 WORKDIR /home/ubuntu/workspace
 
-# Run as user
-ENTRYPOINT ["sudo", "-H", "-u", "ubuntu"]
+# Start with login shell
 CMD ["bash", "-l"]
