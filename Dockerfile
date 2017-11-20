@@ -5,7 +5,8 @@ RUN locale-gen "en_US.UTF-8" && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure 
 ENV LANG "en_US.UTF-8"
 ENV LC_ALL "en_US.UTF-8"
 ENV LC_CTYPE "en_US.UTF-8"
-ENV PATH /opt/cs50/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN sed -e 's|PATH="/opt/cs50/bin:/usr/local/sbin:/usr/local/bin:\(([^:]*\):)?/usr/bin:/sbin:/bin"|PATH="$PATH"|g' -i /etc/environment
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV TERM xterm
 
@@ -70,6 +71,7 @@ RUN apt-get update && \
     /opt/pyenv/bin/pyenv rehash && \
     /opt/pyenv/bin/pyenv global 3.6.0
 ENV PATH /usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
+RUN sed -e 's|PATH="\(.*\)"|PATH="/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:\1"|g' -i /etc/environment
 
 # Install Python packages
 RUN pip install \
