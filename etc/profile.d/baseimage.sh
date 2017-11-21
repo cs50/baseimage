@@ -9,3 +9,6 @@ alias rm="rm -i"
 
 # Environment variables
 export EDITOR=nano
+
+# File mode creation mask
+umask 0077
