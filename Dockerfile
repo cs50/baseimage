@@ -85,8 +85,8 @@ ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYEN
 RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Add user
-RUN useradd --create-home --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
-    mkdir /home/ubuntu/workspace && \
+RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
+    mkdir -p /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu/workspace
