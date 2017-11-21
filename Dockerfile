@@ -68,10 +68,9 @@ RUN apt-get update && \
     /opt/pyenv/bin/pyenv install 3.6.0 && \
     /opt/pyenv/bin/pyenv rehash && \
     /opt/pyenv/bin/pyenv global 3.6.0
-ENV PATH /usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH"
 
 # Install Python packages
-RUN pip install \
+RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
         cs50 \
         check50 \
         Flask \
@@ -81,16 +80,16 @@ RUN pip install \
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 
+# Set PATH
+ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
+
 # Add user
 RUN useradd --create-home --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     mkdir /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu/workspace
-
-# Set PATH
-ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Start with login shell
 CMD ["bash", "-l"]
