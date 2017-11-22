@@ -77,11 +77,31 @@ RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
         Flask-Session \
         style50
 
+# Install Ruby 2.4
+# https://github.com/rbenv/rbenv/blob/master/README.md#installation
+# https://github.com/rbenv/ruby-build/blob/master/README.md
+ENV RBENV_ROOT /opt/rbenv
+RUN apt-get update && \
+    apt-get install -y libreadline-dev zlib1g-dev && \
+    wget -P /tmp https://github.com/rbenv/rbenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/rbenv-master /opt/rbenv && \
+    chmod a+x /opt/rbenv/bin/rbenv && \
+    wget -P /tmp https://github.com/rbenv/ruby-build/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mkdir /opt/rbenv/plugins && \
+    mv /tmp/ruby-build-master /opt/rbenv/plugins/ruby-build && \
+    /opt/rbenv/bin/rbenv install 2.4.0 && \
+    /opt/rbenv/bin/rbenv rehash && \
+    /opt/rbenv/bin/rbenv global 2.4.0
+
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 
 # Set PATH
-ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$RBENV_ROOT"/shims:"$RBENV_ROOT"/bin:"$PATH":"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Add user
