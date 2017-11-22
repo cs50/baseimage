@@ -9,7 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV TERM xterm
 
 # Install packages
-RUN apt-get update && \
+RUN add-apt-repository -y ppa:ondrej/php && \
+    apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:git-core/ppa && \
     apt-get update && \
