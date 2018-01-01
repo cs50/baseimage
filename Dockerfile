@@ -86,6 +86,7 @@ RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Add user
 RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
+    umask 0077 && \
     mkdir -p /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
 USER ubuntu
