@@ -10,11 +10,11 @@ deploy:
 
 # trigger cli build
 - provider: script
-  script: 'curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token $TRAVIS_PUBLIC_TOKEN" -d "{ \"request\": { \"branch\": \"ubuntu\" } }" "https://api.travis-ci.org/repo/cs50%2Fcli/requests"'
+  script: 'curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token $TRAVIS_PUBLIC_TOKEN" -d "{ \"request\": { \"branch\": \"master\" } }" "https://api.travis-ci.org/repo/cs50%2Fcli/requests"'
 
 # trigger ecs build
 - provider: script
-  script: 'curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token $TRAVIS_PUBLIC_TOKEN" -d "{ \"request\": { \"branch\": \"ubuntu\" } }" "https://api.travis-ci.org/repo/cs50%2Fecs/requests"'
+  script: 'curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token $TRAVIS_PUBLIC_TOKEN" -d "{ \"request\": { \"branch\": \"master\" } }" "https://api.travis-ci.org/repo/cs50%2Fecs/requests"'
 
 notifications:
   slack:
