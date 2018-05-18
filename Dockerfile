@@ -71,8 +71,8 @@ RUN apt-get update && \
     "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.6.5
 
 # Install Python packages
-RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
+RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
     "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
