@@ -70,7 +70,8 @@ RUN apt-get update && \
     /opt/pyenv/bin/pyenv global 3.6.0
 
 # Install Python packages
-RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip install \
+RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip3 install --upgrade pip && \
+    PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip3 install \
         cs50 \
         check50 \
         Flask \
