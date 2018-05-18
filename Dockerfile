@@ -10,10 +10,10 @@ ENV TERM xterm
 
 # Install packages
 RUN apt-get update && \
-    apt-get install -y software-properties-common && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
     add-apt-repository -y ppa:git-core/ppa && \
     apt-get update && \
-    apt-get install -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         apt-transport-https \
         clang-3.8 \
         curl \
@@ -31,7 +31,7 @@ RUN apt-get update && \
 # Install libcs50, astyle
 RUN add-apt-repository ppa:cs50/ppa && \
     apt-get update && \
-    apt-get install -y astyle libcs50
+    DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
@@ -39,7 +39,7 @@ RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc
     echo "deb-src https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" >> /etc/apt/sources.list.d/github_git-lfs.list && \
     curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
     apt-get update && \
-    apt-get install -y git-lfs && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
     git lfs install
 
 # Install Python 3.6
@@ -47,7 +47,7 @@ RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc
 # https://github.com/yyuu/pyenv/wiki/Common-build-problems
 ENV PYENV_ROOT /opt/pyenv
 RUN apt-get update && \
-    apt-get install -y \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential \
         curl \
         libbz2-dev \
@@ -63,11 +63,12 @@ RUN apt-get update && \
     wget -P /tmp https://github.com/yyuu/pyenv/archive/master.zip && \
     unzip -d /tmp /tmp/master.zip && \
     rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master /opt/pyenv && \
-    chmod a+x /opt/pyenv/bin/pyenv && \
-    /opt/pyenv/bin/pyenv install 3.6.0 && \
-    /opt/pyenv/bin/pyenv rehash && \
-    /opt/pyenv/bin/pyenv global 3.6.0
+    mv /tmp/pyenv-master "$PYENV_ROOT" && \
+    chmod a+x "$PYENV_ROOT"/bin/pyenv && \
+    "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.6.5 && \
+    "$PYENV_ROOT"/bin/pyenv rehash #&& \
+    #"$PYENV_ROOT"/bin/pyenv global 3.6.5
 
 # Install Python packages
 RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip3 install --upgrade pip && \
@@ -90,8 +91,10 @@ RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
     mkdir -p /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
-USER ubuntu
-WORKDIR /home/ubuntu/workspace
+
+# TEMP
+#USER ubuntu
+#WORKDIR /home/ubuntu/workspace
 
 # Start with login shell
 CMD ["bash", "-l"]
