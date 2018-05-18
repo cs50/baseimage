@@ -42,7 +42,7 @@ RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc
     DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
     git lfs install
 
-# Install Python 3.6
+# Install Python
 # https://github.com/yyuu/pyenv/blob/master/README.md#installation
 # https://github.com/yyuu/pyenv/wiki/Common-build-problems
 ENV PYENV_ROOT /opt/pyenv
@@ -67,12 +67,13 @@ RUN apt-get update && \
     chmod a+x "$PYENV_ROOT"/bin/pyenv && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
     "$PYENV_ROOT"/bin/pyenv install 3.6.5 && \
-    "$PYENV_ROOT"/bin/pyenv rehash #&& \
-    #"$PYENV_ROOT"/bin/pyenv global 3.6.5
+    "$PYENV_ROOT"/bin/pyenv rehash && \
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.6.5
 
 # Install Python packages
-RUN PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip3 install --upgrade pip && \
-    PATH="$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:"$PATH" pip3 install \
+RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
+RUN "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
+    "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
         Flask \
@@ -91,10 +92,8 @@ RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
     mkdir -p /home/ubuntu/workspace && \
     chown -R ubuntu:ubuntu /home/ubuntu
-
-# TEMP
-#USER ubuntu
-#WORKDIR /home/ubuntu/workspace
+USER ubuntu
+WORKDIR /home/ubuntu/workspace
 
 # Start with login shell
 CMD ["bash", "-l"]
