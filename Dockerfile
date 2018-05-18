@@ -72,7 +72,7 @@ RUN apt-get update && \
 
 # Install Python packages
 RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
-RUN "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
