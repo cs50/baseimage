@@ -1,7 +1,4 @@
 FROM ubuntu:18.04
-
-# Avoid "unable to initialize frontend"
-# https://github.com/phusion/baseimage-docker/issues/319#issuecomment-296431537
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
