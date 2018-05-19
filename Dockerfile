@@ -1,79 +1,50 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
+
+# Avoid "unable to initialize frontend"
+# https://github.com/phusion/baseimage-docker/issues/319#issuecomment-296431537
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Avoid "delaying package configuration, since apt-utils is not installed"
+RUN apt-get update && apt-get install -y apt-utils
 
 # Configure environment
-RUN locale-gen "en_US.UTF-8" && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales
+RUN apt-get update && apt-get install -y locales && \
+    locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
 ENV LANG "en_US.UTF-8"
 ENV LC_ALL "en_US.UTF-8"
 ENV LC_CTYPE "en_US.UTF-8"
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV TERM xterm
+ENV PYTHONDONTWRITEBYTECODE "1"
+ENV TERM "xterm"
 
 # Install packages
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
-    add-apt-repository -y ppa:git-core/ppa && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    apt-get install -y apt-utils && \
+    #DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
+    #apt-get update && \
+    apt-get install -y \
         apt-transport-https \
-        clang-3.8 \
+        clang \
         curl \
         git \
+        software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
         valgrind \
-        wget && \
-    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.8 380 \
-        --slave /usr/bin/clang++ clang++ /usr/bin/clang++-3.8 \
-        --slave /usr/bin/clang-check clang-check /usr/bin/clang-check-3.8 \
-        --slave /usr/bin/clang-query clang-query /usr/bin/clang-query-3.8 \
-        --slave /usr/bin/clang-rename clang-rename /usr/bin/clang-rename-3.8
+        wget
 
 # Install libcs50, astyle
-RUN add-apt-repository ppa:cs50/ppa && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y astyle libcs50
+#RUN add-apt-repository ppa:cs50/ppa && \
+#    apt-get update && \
+#    apt-get install -y astyle libcs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
-RUN echo "deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" > /etc/apt/sources.list.d/github_git-lfs.list && \
-    echo "deb-src https://packagecloud.io/github/git-lfs/ubuntu/ trusty main" >> /etc/apt/sources.list.d/github_git-lfs.list && \
-    curl -L https://packagecloud.io/github/git-lfs/gpgkey | apt-key add - && \
-    apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs && \
-    git lfs install
-
-# Install Python
-# https://github.com/yyuu/pyenv/blob/master/README.md#installation
-# https://github.com/yyuu/pyenv/wiki/Common-build-problems
-ENV PYENV_ROOT /opt/pyenv
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        build-essential \
-        curl \
-        libbz2-dev \
-        libncurses5-dev \
-        libncursesw5-dev \
-        libreadline-dev \
-        libsqlite3-dev \
-        libssl-dev \
-        llvm \
-        wget \
-        xz-utils \
-        zlib1g-dev && \
-    wget -P /tmp https://github.com/yyuu/pyenv/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master "$PYENV_ROOT" && \
-    chmod a+x "$PYENV_ROOT"/bin/pyenv && \
-    "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.6.5 && \
-    "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.6.5
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+    apt-get install -y git-lfs
 
 # Install Python packages
-RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
-    "$PYENV_ROOT"/shims/pip3 install \
+RUN apt-get update && apt-get install -y python3-pip && \
+    pip3 install \
         cs50 \
         check50 \
         Flask \
@@ -82,10 +53,6 @@ RUN "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
-
-# Set PATH
-ENV PATH /opt/cs50/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RUN sed -e "s|^PATH=.*$|PATH='$PATH'|g" -i /etc/environment
 
 # Add user
 RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
