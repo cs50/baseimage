@@ -45,6 +45,7 @@ RUN apt-get update && apt-get install -y python3-pip && \
         Flask \
         Flask-Session \
         style50
+ENV FLASK_APP="application.py"
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
