@@ -29,7 +29,6 @@ RUN apt-get update && \
 
 # Install libcs50, astyle
 #RUN add-apt-repository ppa:cs50/ppa && \
-#    apt-get update && \
 #    apt-get install -y astyle libcs50
 
 # Install git-lfs
