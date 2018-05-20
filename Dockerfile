@@ -28,8 +28,10 @@ RUN apt-get update && \
         wget
 
 # Install libcs50, astyle
-#RUN add-apt-repository ppa:cs50/ppa && \
-#    apt-get install -y astyle libcs50
+RUN add-apt-repository ppa:cs50/ppa && \
+    apt-get install -y \
+        astyle \
+        libcs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
