@@ -1,10 +1,13 @@
 sudo: required
 services: docker
-script: docker build . -t cs50/baseimage
+script: docker build . -t cs50/baseimage:${TRAVIS_BRANCH/master/latest}
 before_deploy: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 deploy:
   provider: script
-  script: docker push cs50/baseimage
+  script: docker push cs50/baseimage:${TRAVIS_BRANCH/master/latest}
+  on:
+    all_branches: true
+    condition: $TRAVIS_BRANCH =~ ^master|bionic$
 notifications:
   slack:
     secure: lSG73HidZu87GL5ekVj4yNJrXWiXVeqqdGgtmqB8vnEDfoo1hzqq1iCKRu1uPXKZ8UqiGV3lijARsBUf3+O2O+mcbTTiv3WhC5tiGupuOh81yuVoIQ3vpD/C5QtZhGXZhfrDQTDSF9e+CaTCds/BhU/wa9CtumlGcF6BdC9ZKKthGsk5S7qGEeuQm+gDNB75+aaJI+wyYtb89E6G2WLgyEm97OKDqKeKpYEY7GsEk06w/X7si+2tCqQH5VclI4i5xCDuW/DM58LqQOl9a3dyDbA601M1eELBWrY3umxQooAwOEqd1ShKE50xXQa8PRDg6MiyDMcfQDropdbMfKmFrFSn0kTDl3tA6Q6ppKNql0kdks/sHz88UIxfAFaEUAKUPtnQ2Qqyahswiy75oY/o/jbzCbEelY+ixG/tsMP4XOSkgd/d1tsVKTRWUCXZ+h1itIln8UKF4hcBHc0cb5nJhhfj6k05Vw1jPBLFjpYFFcKRh4a0Hgh6VSqK7rmVIYJyEJM0VwPieDRG5cbmo2k/Qdtb0AKO3iHLM6NtwW6Iyas/Jtk2UVmhHNV2co2V36l5QMW6tbt7/vuObKikIlRYBmtMzjK30wfatmJuy8AsX/AOGv7wYSj4WzB1DEaWc+DzKVyv//BEu4pY5am0Aw62wGtjmv9k19IwmfctMODBUCE=
