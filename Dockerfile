@@ -11,27 +11,24 @@ ENV LANG "en_US.UTF-8"
 ENV LC_ALL "en_US.UTF-8"
 ENV LC_CTYPE "en_US.UTF-8"
 ENV PYTHONDONTWRITEBYTECODE "1"
-ENV TERM "xterm"
 
 # Install packages
 RUN apt-get update && \
     apt-get install -y apt-utils && \
     apt-get install -y \
         apt-transport-https \
+        astyle \
         clang \
         curl \
         git \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
-        valgrind \
-        wget
+        valgrind
 
-# Install libcs50, astyle
+# Install libcs50
 RUN add-apt-repository ppa:cs50/ppa && \
-    apt-get install -y \
-        astyle \
-        libcs50
+    apt-get install -y libcs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
