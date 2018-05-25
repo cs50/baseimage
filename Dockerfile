@@ -27,7 +27,7 @@ RUN apt-get update && \
         valgrind
 
 # Install libcs50
-RUN add-apt-repository ppa:cs50/ppa && \
+RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
     apt-get install -y libcs50
 
 # Install git-lfs
