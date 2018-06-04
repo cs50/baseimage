@@ -2,8 +2,8 @@ FROM ubuntu:18.04
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Avoid dropping man pages
-RUN sed --expression '/path-exclude=\/usr\/share\/doc\/\*/ s/^#*/#/' --in-place /etc/dpkg/dpkg.cfg.d/excludes && \
-    sed --expression '/path-exclude=\/usr\/share\/man\/\*/ s/^#*/#/' --in-place /etc/dpkg/dpkg.cfg.d/excludes
+RUN sed --expression '/^\s*path-exclude=\/usr\/share\/doc\/\*$/ s/^#*/#/' --in-place /etc/dpkg/dpkg.cfg.d/excludes && \
+    sed --expression '/^\s*path-exclude=\/usr\/share\/man\/\*$/ s/^#*/#/' --in-place /etc/dpkg/dpkg.cfg.d/excludes
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
 RUN apt-get update && apt-get install -y apt-utils
