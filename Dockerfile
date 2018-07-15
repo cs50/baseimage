@@ -58,7 +58,11 @@ RUN apt-get update && \
         wget \
         xz-utils \
         zlib1g-dev && \
-    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && \
+    wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/pyenv-master "$PYENV_ROOT" && \
+    chmod a+x "$PYENV_ROOT"/bin/* && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
     "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
