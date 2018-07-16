@@ -22,13 +22,14 @@ RUN apt-get update && \
     apt-get install -y \
         apt-transport-https \
         astyle \
-        clang \
+        clang-5.0 \
         curl \
         git \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
-        valgrind
+        valgrind && \
+        update-alternatives --install /usr/bin/clang clang $(which clang-5.0) 1
 
 # Install libcs50
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
