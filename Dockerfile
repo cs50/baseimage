@@ -47,6 +47,10 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
 
+# Install Node.js 10.x
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    apt-get install -y nodejs
+
 # Install Python 3.7
 ENV PYENV_ROOT /opt/pyenv
 RUN apt-get update && \
@@ -83,10 +87,6 @@ RUN apt-get update && \
         Flask \
         Flask-Session \
         style50
-
-# Install Node.js 10.x
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y nodejs
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
