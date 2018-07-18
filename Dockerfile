@@ -51,15 +51,42 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     apt-get install -y nodejs
 
-# Install Python packages
-RUN apt-get update && apt-get install -y python3-pip && \
-    pip3 install \
+# Install Python 3.7
+ENV PYENV_ROOT /opt/pyenv
+RUN apt-get update && \
+    apt-get install -y \
+        build-essential \
+        curl \
+        libbz2-dev \
+        libffi-dev \
+        libncurses5-dev \
+        libncursesw5-dev \
+        libreadline-dev \
+        libsqlite3-dev \
+        libssl-dev \
+        llvm \
+        make \
+        tk-dev \
+        wget \
+        xz-utils \
+        zlib1g-dev && \
+    wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
+    unzip -d /tmp /tmp/master.zip && \
+    rm -f /tmp/master.zip && \
+    mv /tmp/pyenv-master "$PYENV_ROOT" && \
+    chmod a+x "$PYENV_ROOT"/bin/* && \
+    "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
+    "$PYENV_ROOT"/bin/pyenv rehash && \
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 && \
+    "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
+    "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
         Flask \
         Flask-Session \
         style50
-ENV FLASK_APP="application.py"
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
@@ -67,6 +94,9 @@ RUN curl --silent --show-error https://getcomposer.org/installer | \
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
+
+# Ready /opt
+RUN mkdir -p /opt/bin /opt/cs50/bin
 
 # Add user
 RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
