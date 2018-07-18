@@ -25,6 +25,9 @@ RUN apt-get update && \
         clang-5.0 \
         curl \
         git \
+        php \
+        ruby \
+        ruby-dev `# Avoid "can't find header files for ruby" for gem` \
         openjdk-11-jdk-headless `# Java 10` \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
@@ -32,14 +35,21 @@ RUN apt-get update && \
         valgrind && \
         update-alternatives --install /usr/bin/clang clang $(which clang-5.0) 1
 
-# Install libcs50
+# Install CS50 packages
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
-    apt-get install -y libcs50
+    apt-get install -y \
+        libcs50 \
+        libcs50-java \
+        php-cs50
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
+
+# Install Node.js 10.x
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    apt-get install -y nodejs
 
 # Install Python packages
 RUN apt-get update && apt-get install -y python3-pip && \
@@ -50,6 +60,10 @@ RUN apt-get update && apt-get install -y python3-pip && \
         Flask-Session \
         style50
 ENV FLASK_APP="application.py"
+
+# Install Composer
+RUN curl --silent --show-error https://getcomposer.org/installer | \
+        php -- --install-dir=/usr/local/bin --filename=composer
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
