@@ -25,6 +25,7 @@ RUN apt-get update && \
         clang-5.0 \
         curl \
         git \
+        openjdk-11-jdk-headless `# Java 10` \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
