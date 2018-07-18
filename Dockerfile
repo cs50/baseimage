@@ -22,17 +22,17 @@ RUN apt-get update && \
     apt-get install -y \
         apt-transport-https \
         astyle \
-        clang \
+        clang-5.0 \
         curl \
         git \
-        openjdk-11-jdk-headless `# Technically JDK 10` \
-        openjdk-11-jre-headless `# Technically JDK 10` \
         ruby \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
+        openjdk-11-jdk-headless `# Java 10` \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
-        valgrind
+        valgrind && \
+        update-alternatives --install /usr/bin/clang clang $(which clang-5.0) 1
 
 # Install CS50 packages
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
