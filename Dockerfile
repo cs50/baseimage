@@ -25,6 +25,7 @@ RUN apt-get update && \
         clang-5.0 \
         curl \
         git \
+        php \
         ruby \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
         openjdk-11-jdk-headless `# Java 10` \
