@@ -52,7 +52,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | APT_KEY_DONT_WARN_ON_DANGER
     apt-get install -y nodejs
 
 # Install Python 3.7
-ENV PYENV_ROOT /opt/pyenv
+ARG PYENV_ROOT=/opt/pyenv
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
@@ -94,6 +94,10 @@ RUN curl --silent --show-error https://getcomposer.org/installer | \
 
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
+
+# Update environment
+ENV PATH=/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN sed -i "s|^PATH=.*|PATH=$PATH|" /etc/environment
 
 # Ready /opt
 RUN mkdir -p /opt/bin /opt/cs50/bin
