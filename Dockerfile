@@ -48,7 +48,7 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
     apt-get install -y git-lfs
 
 # Install Node.js 10.x
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
     apt-get install -y nodejs
 
 # Install Python 3.7
@@ -79,8 +79,8 @@ RUN apt-get update && \
     "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
     "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 && \
-    "$PYENV_ROOT"/shims/pip2 install --upgrade pip==9.0.3 && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip==9.0.3 && \
+    "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
         check50 \
