@@ -49,7 +49,8 @@ RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.d
 
 # Install Node.js 10.x
 RUN curl -sL https://deb.nodesource.com/setup_10.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs && \
+    npm install -g npm `# Upgrades npm to latest`
 
 # Install Python 3.7
 ARG PYENV_ROOT=/opt/pyenv
