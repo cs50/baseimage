@@ -10,3 +10,10 @@ alias python="python3"
 
 # Flask
 export FLASK_APP="application.py"
+
+# Python
+export PATH="$HOME"/.local/bin:"$PATH"
+
+# Ruby
+export GEM_HOME="$HOME"/.gem
+export PATH="$GEM_HOME"/bin:"$PATH"
