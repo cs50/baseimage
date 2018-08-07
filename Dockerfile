@@ -97,7 +97,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | \
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 
 # Update environment
-ENV PATH=/opt/cs50/bin:/opt/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/local/sbin:/usr/local/bin::/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/opt/cs50/bin:/opt/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN sed -i "s|^PATH=.*|PATH=$PATH|" /etc/environment
 
 # Ready /opt
