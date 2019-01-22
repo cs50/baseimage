@@ -73,9 +73,9 @@ RUN apt-get update && \
     mv /tmp/pyenv-master "$PYENV_ROOT" && \
     chmod a+x "$PYENV_ROOT"/bin/* && \
     "$PYENV_ROOT"/bin/pyenv install 2.7.15 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.7.0 && \
+    "$PYENV_ROOT"/bin/pyenv install 3.7.1 && \
     "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.0 && \
+    "$PYENV_ROOT"/bin/pyenv global 2.7.15 3.7.1 && \
     "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
