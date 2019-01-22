@@ -43,8 +43,8 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
 
-# Install Node.js 10.x
-RUN curl -sL https://deb.nodesource.com/setup_10.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
+# Install Node.js 11.x
+RUN curl -sL https://deb.nodesource.com/setup_11.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
     apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest`
 
