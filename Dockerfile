@@ -42,6 +42,16 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
 
+# Install Java
+# http://jdk.java.net/12/
+RUN wget -P /tmp https://download.java.net/java/GA/jdk12/GPL/openjdk-12_linux-x64_bin.tar.gz && \
+    tar xzf /tmp/openjdk-12_linux-x64_bin.tar.gz -C /tmp && \
+    rm -f /tmp/openjdk-12_linux-x64_bin.tar.gz && \
+    mv /tmp/jdk-12 /opt/ && \
+    mkdir -p /opt/bin && \
+    ln -s /opt/jdk-12/bin/* /opt/bin/ && \
+    chmod a+rx /opt/bin/*
+
 # Install Node.js 11.x
 RUN curl -sL https://deb.nodesource.com/setup_11.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
     apt-get install -y nodejs && \
