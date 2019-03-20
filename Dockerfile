@@ -27,7 +27,8 @@ RUN apt-get update && \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
-        valgrind && \
+        valgrind \
+        wget && \
         update-alternatives --install /usr/bin/clang clang $(which clang-5.0) 1
 
 # Install CS50 packages
@@ -73,7 +74,6 @@ RUN apt-get update && \
         llvm \
         make \
         tk-dev \
-        wget \
         xz-utils \
         zlib1g-dev && \
     wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
