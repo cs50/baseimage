@@ -24,7 +24,6 @@ RUN apt-get update && \
         php \
         ruby \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
-        openjdk-11-jdk-headless `# Java 10` \
         software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
