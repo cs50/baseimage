@@ -13,7 +13,6 @@ export FLASK_APP="application.py"
 
 # Python
 export PATH="$HOME"/.local/bin:"$PATH"
-export PYENV_ROOT="/opt/pyenv"
 
 # Ruby
 export GEM_HOME="$HOME"/.gem
