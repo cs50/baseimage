@@ -90,10 +90,10 @@ RUN apt-get update && \
     "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
     "$PYENV_ROOT"/shims/pip3 install \
         cs50 \
-        check50 \
         Flask \
         Flask-Session \
-        style50
+        style50 && \
+    "$PYENV_ROOT"/shims/pip3 install --upgrade 'check50<3' 'submit50<3'
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
