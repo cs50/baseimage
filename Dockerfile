@@ -19,7 +19,7 @@ RUN apt-get update && \
     apt-get install -y \
         apt-transport-https \
         astyle \
-        clang-5.0 \
+        clang-6.0 \
         curl \
         git \
         php \
@@ -30,7 +30,7 @@ RUN apt-get update && \
         unzip \
         valgrind \
         wget && \
-        update-alternatives --install /usr/bin/clang clang $(which clang-5.0) 1
+    update-alternatives --install /usr/bin/clang clang $(which clang-6.0) 1
 
 # Install CS50 packages
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
