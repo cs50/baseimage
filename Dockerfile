@@ -1,4 +1,5 @@
 FROM ubuntu:18.04
+LABEL maintainer="sysadmins@cs50.harvard.edu"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Avoid "delaying package configuration, since apt-utils is not installed"
