@@ -44,51 +44,53 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
 
-# Install Java
+# Install Java 12
 # http://jdk.java.net/12/
-RUN wget -P /tmp https://download.java.net/java/GA/jdk12/GPL/openjdk-12_linux-x64_bin.tar.gz && \
-    tar xzf /tmp/openjdk-12_linux-x64_bin.tar.gz -C /tmp && \
-    rm -f /tmp/openjdk-12_linux-x64_bin.tar.gz && \
-    mv /tmp/jdk-12 /opt/ && \
+RUN cd /tmp && \
+    wget https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    rm -f openjdk-12.0.1_linux-x64_bin.tar.gz && \
+    mv jdk-12.0.1 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-12/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-12.0.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
 
-# Install Node.js 11.x
-RUN curl -sL https://deb.nodesource.com/setup_11.x | APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 bash - && \
+# Install Node.js 12.x
+# https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
+# https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest`
 
 # Install Python 3.7
-ARG PYENV_ROOT=/opt/pyenv
+# https://www.python.org/downloads/
+# https://stackoverflow.com/a/44758621/5156190
 RUN apt-get update && \
     apt-get install -y \
         build-essential \
-        curl \
         libbz2-dev \
-        libffi-dev \
-        libncurses5-dev \
+        libc6-dev \
+        libgdbm-dev \
         libncursesw5-dev \
-        libreadline-dev \
+        libreadline-gplv2-dev \
         libsqlite3-dev \
         libssl-dev \
-        llvm \
-        make \
         tk-dev \
-        xz-utils \
         zlib1g-dev && \
-    wget -P /tmp https://github.com/pyenv/pyenv/archive/master.zip && \
-    unzip -d /tmp /tmp/master.zip && \
-    rm -f /tmp/master.zip && \
-    mv /tmp/pyenv-master "$PYENV_ROOT" && \
-    chmod a+x "$PYENV_ROOT"/bin/* && \
-    "$PYENV_ROOT"/bin/pyenv install 2.7.16 && \
-    "$PYENV_ROOT"/bin/pyenv install 3.7.3 && \
-    "$PYENV_ROOT"/bin/pyenv rehash && \
-    "$PYENV_ROOT"/bin/pyenv global 2.7.16 3.7.3 && \
-    "$PYENV_ROOT"/shims/pip2 install --upgrade pip && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade pip && \
-    "$PYENV_ROOT"/shims/pip3 install \
+    cd /tmp && \
+    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
+    tar xzf Python-3.7.3.tgz && \
+    rm -f Python-3.7.3.tgz && \
+    cd Python-3.7.3 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.7.3 && \
+    pip3 install --upgrade pip
+
+# Install CS50 packages
+RUN pip3 install \
         cs50 \
         check50 \
         Flask \
@@ -103,7 +105,7 @@ RUN curl --silent --show-error https://getcomposer.org/installer | \
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 
 # Update environment
-ENV PATH=/opt/cs50/bin:/opt/bin:"$PYENV_ROOT"/shims:"$PYENV_ROOT"/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV PATH=/opt/cs50/bin:/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN sed -i "s|^PATH=.*|PATH=$PATH|" /etc/environment
 
 # Ready /opt
