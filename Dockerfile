@@ -114,10 +114,10 @@ RUN mkdir -p /opt/bin /opt/cs50/bin
 # Add user
 RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     umask 0077 && \
-    mkdir -p /home/ubuntu/workspace && \
+    mkdir -p /home/ubuntu/environment && \
     chown -R ubuntu:ubuntu /home/ubuntu
 USER ubuntu
-WORKDIR /home/ubuntu/workspace
+WORKDIR /home/ubuntu/environment
 
 # Start with login shell
 CMD ["bash", "-l"]
