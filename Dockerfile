@@ -5,13 +5,13 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Avoid "delaying package configuration, since apt-utils is not installed"
 RUN apt-get update && apt-get install -y apt-utils
 
-# Configure environment
+# Environment
 RUN apt-get update && apt-get install -y locales && \
     locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
+ENV APPLICATION_ENV "dev"
 ENV LANG "en_US.UTF-8"
 ENV LC_ALL "en_US.UTF-8"
 ENV LC_CTYPE "en_US.UTF-8"
-ENV PYTHONDONTWRITEBYTECODE "1"
 
 # Install packages
 RUN apt-get update && \
@@ -38,6 +38,7 @@ RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.
         libcs50 \
         libcs50-java \
         php-cs50
+ENV CLASSPATH ".:/usr/share/java/cs50.jar"
 
 # Install git-lfs
 # https://packagecloud.io/github/git-lfs/install#manual
@@ -54,6 +55,7 @@ RUN cd /tmp && \
     mkdir -p /opt/bin && \
     ln -s /opt/jdk-12.0.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
+ENV JAVA_HOME "/opt/jdk-12.0.1"
 
 # Install Node.js 12.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
@@ -61,6 +63,7 @@ RUN cd /tmp && \
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest`
+ENV NODE_ENV "dev"
 
 # Install Python 3.7
 # https://www.python.org/downloads/
@@ -88,6 +91,7 @@ RUN apt-get update && \
     cd .. && \
     rm -rf Python-3.7.3 && \
     pip3 install --upgrade pip
+ENV PYTHONDONTWRITEBYTECODE "1"
 
 # Install CS50 packages
 RUN pip3 install \
