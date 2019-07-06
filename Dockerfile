@@ -95,7 +95,7 @@ RUN pip3 install \
         Flask \
         Flask-Session \
         style50 && \
-    "$PYENV_ROOT"/shims/pip3 install --upgrade 'check50<3' 'submit50<3'
+    pip3 install --upgrade 'check50<3' 'submit50<3'
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
