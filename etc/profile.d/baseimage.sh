@@ -19,7 +19,6 @@ alias python="python3"
 # Flask
 export FLASK_APP="application.py"
 export FLASK_DEBUG="0"
-export FLASK_ENV="development"
 
 # Python
 export PATH="$HOME"/.local/bin:"$PATH"
