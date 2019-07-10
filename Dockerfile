@@ -8,7 +8,6 @@ RUN apt-get update && apt-get install -y apt-utils
 # Environment
 RUN apt-get update && apt-get install -y locales && \
     locale-gen "en_US.UTF-8" && dpkg-reconfigure locales
-ENV APPLICATION_ENV "dev"
 ENV LANG "C.UTF-8"
 ENV LC_ALL "C.UTF-8"
 ENV LC_CTYPE "C.UTF-8"
