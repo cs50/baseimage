@@ -95,10 +95,11 @@ ENV PYTHONDONTWRITEBYTECODE "1"
 # Install CS50 packages
 RUN pip3 install \
         cs50 \
+        check50 \
         Flask \
         Flask-Session \
-        style50 && \
-    pip3 install --upgrade 'check50<3' 'submit50<3'
+        style50 \
+        submit50
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
