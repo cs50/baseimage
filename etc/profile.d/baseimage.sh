@@ -15,6 +15,7 @@ alias pip="pip3 --no-cache-dir"
 alias pip3="pip3 --no-cache-dir"
 alias pylint="pylint3"
 alias python="python3"
+alias swift="swift 2> /dev/null"  # https://github.com/cs50/baseimage/issues/49
 
 # Flask
 export FLASK_APP="application.py"
