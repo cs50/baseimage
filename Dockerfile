@@ -21,6 +21,7 @@ RUN apt-get update && \
         clang-6.0 \
         curl \
         git \
+        lua5.3 \
         php \
         ruby \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
