@@ -104,7 +104,11 @@ RUN pip3 install \
 
 
 # Fix bs4 DeprecatinWarning
-RUN sed -i 's/\(isinstance(formatter, \)collections.Callable)/\1Callable)/' /usr/local/lib/python3.7/site-packages/bs4/element.py
+# Fixed in tar.gz but not whl
+# TODO Remove when whl is updated
+RUN wget -P/tmp https://files.pythonhosted.org/packages/86/cd/495c68f0536dcd25f016e006731ba7be72e072280305ec52590012c1e6f2/beautifulsoup4-4.8.1.tar.gz && \
+    pip3 install --upgrade /tmp/beautifulsoup4-4.8.1.tar.gz
+
 
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
