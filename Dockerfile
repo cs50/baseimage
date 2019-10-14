@@ -102,6 +102,10 @@ RUN pip3 install \
         style50 \
         submit50
 
+
+# Fix bs4 DeprecatinWarning
+RUN sed -i 's/\(isinstance(formatter, \)collections.Callable)/\1Callable)/' /usr/local/lib/python3.7/site-packages/bs4/element.py
+
 # Install Composer
 RUN curl --silent --show-error https://getcomposer.org/installer | \
         php -- --install-dir=/usr/local/bin --filename=composer
