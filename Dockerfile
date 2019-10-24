@@ -74,6 +74,7 @@ RUN apt-get update && \
         libbz2-dev \
         libc6-dev \
         libgdbm-dev \
+        liblzma-dev `# Required by pandas` \
         libncursesw5-dev \
         libreadline-gplv2-dev \
         libsqlite3-dev \
