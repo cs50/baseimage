@@ -30,7 +30,7 @@ RUN apt-get update && \
         unzip \
         valgrind \
         wget && \
-    update-alternatives --install /usr/bin/clang clang $(which clang-6.0) 1
+    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Install CS50 packages
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
