@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get install -y \
         apt-transport-https \
         astyle \
-        clang-6.0 \
+        clang-8 \
         curl \
         git \
         lua5.3 \
