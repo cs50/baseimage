@@ -82,15 +82,15 @@ RUN apt-get update && \
         tk-dev \
         zlib1g-dev && \
     cd /tmp && \
-    wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz && \
-    tar xzf Python-3.7.3.tgz && \
-    rm -f Python-3.7.3.tgz && \
-    cd Python-3.7.3 && \
+    wget https://www.python.org/ftp/python/3.7.6/Python-3.7.6.tgz && \
+    tar xzf Python-3.7.6.tgz && \
+    rm -f Python-3.7.6.tgz && \
+    cd Python-3.7.6 && \
     ./configure && \
     make && \
     make install && \
     cd .. && \
-    rm -rf Python-3.7.3 && \
+    rm -rf Python-3.7.6 && \
     pip3 install --upgrade pip
 ENV PYTHONDONTWRITEBYTECODE "1"
 
