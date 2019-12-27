@@ -30,7 +30,6 @@ RUN apt-get update && \
         unzip \
         valgrind \
         wget && \
-    update-alternatives --remove-all clang && \
     update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Install CS50 packages
@@ -133,6 +132,16 @@ RUN useradd --home-dir /home/ubuntu --shell /bin/bash ubuntu && \
     chown -R ubuntu:ubuntu /home/ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu
+
+
+# TEMP
+# Add user to sudoers
+RUN echo "\n# CS50 CLI" >> /etc/sudoers
+RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "Defaults umask_override" >> /etc/sudoers
+RUN echo "Defaults umask=0022" >> /etc/sudoers
+RUN sed -e "s|^Defaults\tsecure_path=.*|Defaults\t!secure_path|" -i /etc/sudoers
+USER ubuntu
 
 # Start with login shell
 CMD ["bash", "-l"]
