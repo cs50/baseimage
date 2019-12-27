@@ -30,6 +30,7 @@ RUN apt-get update && \
         unzip \
         valgrind \
         wget && \
+    update-alternatives --remove-all clang && \
     update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
 
 # Install CS50 packages
