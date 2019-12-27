@@ -57,10 +57,10 @@ RUN cd /tmp && \
     chmod a+rx /opt/bin/*
 ENV JAVA_HOME "/opt/jdk-12.0.1"
 
-# Install Node.js 12.x
+# Install Node.js 13.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash - && \
     apt-get install -y nodejs && \
     npm install -g npm `# Upgrades npm to latest`
 ENV NODE_ENV "dev"
