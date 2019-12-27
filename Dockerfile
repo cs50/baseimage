@@ -45,17 +45,17 @@ ENV CLASSPATH ".:/usr/share/java/cs50.jar"
 RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
     apt-get install -y git-lfs
 
-# Install Java 12
-# http://jdk.java.net/12/
+# Install Java 13
+# http://jdk.java.net/13/
 RUN cd /tmp && \
-    wget https://download.java.net/java/GA/jdk12.0.1/69cfe15208a647278a19ef0990eea691/12/GPL/openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    tar xzf openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    rm -f openjdk-12.0.1_linux-x64_bin.tar.gz && \
-    mv jdk-12.0.1 /opt/ && \
+    wget https://download.java.net/java/GA/jdk13.0.1/cec27d702aa74d5a8630c65ae61e4305/9/GPL/openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    tar xzf openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    rm -f openjdk-13.0.1_linux-x64_bin.tar.gz && \
+    mv jdk-13.0.1 /opt/ && \
     mkdir -p /opt/bin && \
-    ln -s /opt/jdk-12.0.1/bin/* /opt/bin/ && \
+    ln -s /opt/jdk-13.0.1/bin/* /opt/bin/ && \
     chmod a+rx /opt/bin/*
-ENV JAVA_HOME "/opt/jdk-12.0.1"
+ENV JAVA_HOME "/opt/jdk-13.0.1"
 
 # Install Node.js 13.x
 # https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions-enterprise-linux-fedora-and-snap-packages
