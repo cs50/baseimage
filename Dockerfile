@@ -25,12 +25,10 @@ RUN apt-get update && \
         php \
         ruby \
         ruby-dev `# Avoid "can't find header files for ruby" for gem` \
-        software-properties-common `# Avoids "add-apt-repository: not found"` \
         sqlite3 \
         unzip \
         valgrind \
-        wget && \
-    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
+        wget
 
 # Install CS50 packages
 RUN curl --silent https://packagecloud.io/install/repositories/cs50/repo/script.deb.sh | bash && \
@@ -91,7 +89,9 @@ RUN apt-get update && \
     make install && \
     cd .. && \
     rm -rf Python-3.7.6 && \
-    pip3 install --upgrade pip
+    pip3 install --upgrade pip && \
+    apt-get remove -y python3.6-minimal && \
+    apt autoremove -y
 ENV PYTHONDONTWRITEBYTECODE "1"
 
 # Install CS50 packages
@@ -115,6 +115,10 @@ RUN cd /tmp && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y libpython2.7
 
+# Configure clang 8 last, else 7 takes priority
+RUN (update-alternatives --remove-all clang || true) && \
+    update-alternatives --install /usr/bin/clang clang $(which clang-8) 1
+
 # Configure shell
 COPY ./etc/profile.d/baseimage.sh /etc/profile.d/
 
@@ -136,6 +140,8 @@ WORKDIR /home/ubuntu
 
 # TEMP
 # Add user to sudoers
+USER root
+RUN apt-get install -y sudo
 RUN echo "\n# CS50 CLI" >> /etc/sudoers
 RUN echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN echo "Defaults umask_override" >> /etc/sudoers
