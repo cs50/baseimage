@@ -89,9 +89,7 @@ RUN apt-get update && \
     make install && \
     cd .. && \
     rm -rf Python-3.7.6 && \
-    pip3 install --upgrade pip && \
-    apt-get remove -y python3.6-minimal && \
-    apt autoremove -y
+    pip3 install --upgrade pip
 ENV PYTHONDONTWRITEBYTECODE "1"
 
 # Install CS50 packages
